@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
@@ -21,30 +22,33 @@ class ProductView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        reviews = self.object.reviews.all()
+        reviews = self.object.reviews.filter(moderated=True)
         context['reviews'] = reviews
         return context
 
 
-class ProductAddView(CreateView):
+class ProductAddView(PermissionRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
     template_name = 'product/product_add.html'
+    permission_required = 'webapp.add_product'
 
     def get_success_url(self):
         return reverse('webapp:product_view', kwargs={'pk': self.object.pk})
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(PermissionRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
     template_name = 'product/product_update.html'
+    permission_required = 'webapp.change_product'
 
     def get_success_url(self):
         return reverse('webapp:product_view', kwargs={'pk': self.object.pk})
 
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(PermissionRequiredMixin, DeleteView):
     model = Product
     template_name = 'product/product_delete.html'
     success_url = reverse_lazy('webapp:index')
+    permission_required = 'webapp.delete_product'

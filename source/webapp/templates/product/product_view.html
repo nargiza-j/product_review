@@ -2,16 +2,16 @@
 
 {% load static %}
 {% block nav %}
-{#    {% if perms.webapp.change_product %}#}
+    {% if perms.webapp.change_product %}
     <li class="nav-item">
         <a class="nav-link" href="{% url 'webapp:product_update' product.pk %}">Update Product</a>
     </li>
-{#    {% endif %}#}
-{#    {% if perms.webapp.delete_product %}#}
+    {% endif %}
+    {% if perms.webapp.delete_product %}
     <li class="nav-item">
         <a class="nav-link" href="{% url 'webapp:product_delete' product.pk %}">Delete Product</a>
     </li>
-{#    {% endif %}#}
+    {% endif %}
     <li class="nav-item">
         <a class="nav-link" href="{% url 'webapp:product_add_review' product.pk %}">Add review</a>
     </li>
@@ -28,17 +28,19 @@
                 <img src="{% static "img/no-image-icon-6.png" %}" width="150" height="150" alt="image">
             {% endif %}
             <br>
-{#            {% include "partial/cart_add_form.html" %}#}
         <h3>Review</h3>
         <div>
             {% for review in reviews %}
-            <a href="#"><p>Author: {{ review.author }}</p></a>
+            Author:<a href="{% url 'accounts:user-profile' review.author.id %}"><p>{{ review.author }}</p></a>
+                <p>email: {{ review.author.email }}</p>
                 <p>review: {{ review.content }}</p>
                 <p>rate: {{ review.rate }}</p>
-
-            <p><a href="{% url "webapp:review_update" review.pk %}">Update review</a></p>
-
-            <p><a href="{% url "webapp:review_delete" review.pk %}">Delete review</a></p>
+            {% if perms.webapp.change_review or review.author == request.user %}
+                <p><a href="{% url "webapp:review_update" review.pk %}">Update review</a></p>
+            {% endif %}
+            {% if perms.webapp.delete_review or review.author == request.user %}
+                <p><a href="{% url "webapp:review_delete" review.pk %}">Delete review</a></p>
+            {% endif %}
                 <hr>
         </div>
         {% empty %}

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {%  for review in reviews %}
+        <span>Author:<a href="{% url 'accounts:user-profile' review.author.id %}"><p>{{ review.author }}</p></a></span>
+        <p>review: {{ review.content }}</p>
+        <p><a href="{% url "webapp:review_update" review.pk %}">Update review</a></p>
+        <hr>
+    {% endfor %}
+{% endblock content%}

@@ -4,7 +4,7 @@
 {% block content %}
     <h1>Product Add</h1>
 
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         {% include "partial/form.html" with button_text="Add" %}
     </form>
 

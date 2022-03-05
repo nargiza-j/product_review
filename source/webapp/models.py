@@ -42,3 +42,6 @@ class Review(models.Model):
         db_table = 'review'
         verbose_name = 'review'
         verbose_name_plural = 'reviews'
+        permissions = [
+            ('can_look_review_list', 'Может просмотреть страницу со списком отзывов')
+        ]

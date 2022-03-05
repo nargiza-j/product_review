@@ -2,7 +2,7 @@
 
 {% block content %}
     <h1>Update product</h1>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         {% include 'partial/form.html' with button_text="Update" %}
     </form>
 {% endblock %}
