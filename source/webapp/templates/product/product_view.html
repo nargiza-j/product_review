@@ -12,6 +12,9 @@
         <a class="nav-link" href="{% url 'webapp:product_delete' product.pk %}">Delete Product</a>
     </li>
 {#    {% endif %}#}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'webapp:product_add_review' product.pk %}">Add review</a>
+    </li>
 {% endblock %}
 {% block content %}
     <div class="card">
@@ -26,6 +29,21 @@
             {% endif %}
             <br>
 {#            {% include "partial/cart_add_form.html" %}#}
+        <h3>Review</h3>
+        <div>
+            {% for review in reviews %}
+            <a href="#"><p>Author: {{ review.author }}</p></a>
+                <p>review: {{ review.content }}</p>
+                <p>rate: {{ review.rate }}</p>
+
+            <p><a href="{% url "webapp:review_update" review.pk %}">Update review</a></p>
+
+            <p><a href="{% url "webapp:review_delete" review.pk %}">Delete review</a></p>
+                <hr>
+        </div>
+        {% empty %}
+            <p>No review yet.</p>
+        {% endfor %}
         </div>
     </div>
     <a href="{% url 'webapp:index' %}">Return to list of products</a>

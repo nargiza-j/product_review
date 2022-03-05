@@ -1,3 +1,4 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 # Create your views here.
@@ -17,6 +18,12 @@ class ProductListView(ListView):
 class ProductView(DetailView):
     model = Product
     template_name = "product/product_view.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        reviews = self.object.reviews.all()
+        context['reviews'] = reviews
+        return context
 
 
 class ProductAddView(CreateView):
