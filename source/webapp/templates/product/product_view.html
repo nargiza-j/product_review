@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block nav %}
+{#    {% if perms.webapp.change_product %}#}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'webapp:product_update' product.pk %}">Update Product</a>
+    </li>
+{#    {% endif %}#}
+{#    {% if perms.webapp.delete_product %}#}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'webapp:product_delete' product.pk %}">Delete Product</a>
+    </li>
+{#    {% endif %}#}
+{% endblock %}
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+            <h1>{{ product.name }}</h1>
+            <p class="card-text">Category: {{ product.get_category_display }}</p>
+            <p class="pre">Description: {{ product.description }}</p>
+            {% if product.picture %}
+                <img src="{{ product.picture.url }}" width="150" height="150" alt="product picture">
+            {% else %}
+                <img src="{% static "img/no-image-icon-6.png" %}" width="150" height="150" alt="image">
+            {% endif %}
+            <br>
+{#            {% include "partial/cart_add_form.html" %}#}
+        </div>
+    </div>
+    <a href="{% url 'webapp:index' %}">Return to list of products</a>
+{% endblock content %}

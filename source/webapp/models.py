@@ -4,7 +4,6 @@ from django.db import models
 
 # Create your models here.
 
-
 User = get_user_model()
 
 CATEGORY_CHOICES = [('0', 'other'), ('1', 'smartphone'),  ('2', 'computers')]
@@ -15,7 +14,7 @@ class Product(models.Model):
     description = models.TextField(max_length=2000, null=True, blank=True, verbose_name='Product description')
     category = models.CharField(max_length=30, default='0', null=False, blank=False, choices=CATEGORY_CHOICES,
                                 verbose_name='Category')
-    picture = models.ImageField(verbose_name="Picture", upload_to="pictures/", null=True, blank=False)
+    picture = models.ImageField(verbose_name="Picture", upload_to="pictures/", null=True, blank=True)
 
     def __str__(self):
         return f"{self.name}"
@@ -28,10 +27,18 @@ class Product(models.Model):
 
 class Review(models.Model):
     author = models.ForeignKey(User, related_name='reviews', on_delete=models.CASCADE, verbose_name="Author")
-    product = models.ForeignKey("webapp.Product", on_delete=models.CASCADE, related_name="Reviews")
+    product = models.ForeignKey("webapp.Product", on_delete=models.CASCADE, related_name="reviews")
     content = models.TextField(max_length=1500, null=False, blank=False, verbose_name="Content")
     rate = models.PositiveIntegerField(verbose_name='Rate', null=False, blank=False,
                                        validators=[MinValueValidator(1), MaxValueValidator(5)])
     moderated = models.BooleanField(default=False, verbose_name="Moderated")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Created date")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Updated date")
+
+    def __str__(self):
+        return f"{self.author}"
+
+    class Meta:
+        db_table = 'review'
+        verbose_name = 'review'
+        verbose_name_plural = 'reviews'

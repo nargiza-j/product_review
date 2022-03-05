@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Are you sure want to delete product - "{{ product.name }}"?</h1>
+    <form action="{% url "webapp:product_delete" product.pk %}" method="post">
+        {% csrf_token %}
+        <div class="btn-group">
+            <button class="btn btn-danger" type="submit">Yes</button>
+            <a class="btn btn-primary" href="{% url 'webapp:product_view' product.pk %}">No</a>
+        </div>
+    </form>
+{% endblock %}
