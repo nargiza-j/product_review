@@ -22,34 +22,31 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 {% block nav %}{% endblock %}
-{#                {% if perms.webapp.add_product %}#}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'webapp:product_add' %}">Product Add</a>
-                </li>
-{#                {% endif %}#}
-{#                <li class="nav-item">#}
-{#                    <a class="nav-link" href="{% url 'webapp:cart_view' %}">Cart</a>#}
-{#                </li>#}
-{#                {% if user.is_authenticated %}#}
-{#                <li class="nav-item">#}
-{#                    <a class="nav-link" href="{% url 'webapp:orders_view' %}">Orders</a>#}
-{#                </li>#}
-{#                {% endif %}#}
-{#                {% if not user.is_authenticated %}#}
-{#                <li class="nav-item">#}
-{#                    <a class="nav-link" href="{% url 'accounts:login' %}?next={{ request.get_full_path }}">Вход</a>#}
-{#                </li>#}
-{#                <li class="nav-item">#}
-{#                    <a class="nav-link" href="{% url 'accounts:registration' %}?next={{ request.get_full_path }}">Регистрация</a>#}
-{#                </li>#}
-{#                {% else %}#}
-{#                    <li class="nav-item">#}
-{#                    <p class="nav-link" >Привет, <a href="{% url 'accounts:user-profile' user.id %}">{{ user.username }}</a></p>#}
-{#                </li>#}
-{#                <li class="nav-item">#}
-{#                    <a class="nav-link" href="{% url 'accounts:logout' %}?next={{ request.get_full_path }}">Выход</a>#}
-{#                </li>#}
-{#                {% endif %}#}
+                    {% if perms.webapp.add_product %}
+                        <a class="nav-link" href="{% url 'webapp:product_add' %}">Product Add</a>
+                    </li>
+                    {% endif %}
+                {% if not user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'accounts:login' %}?next={{ request.get_full_path }}">Вход</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'accounts:registration' %}?next={{ request.get_full_path }}">Регистрация</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                    <p class="nav-link" >Hi, <a href="{% url 'accounts:user-profile' user.id %}">{{ user.username }}</a></p>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'accounts:logout' %}?next={{ request.get_full_path }}">Выход</a>
+                    </li>
+                {% endif %}
+                {% if perms.webapp.can_look_review_list %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'webapp:review_list' %}">Review List</a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     </div>

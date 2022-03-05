@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block nav %}
+    {% if user_object == user %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'accounts:update_user' %}">Update profile</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'accounts:change_password' %}">Change password</a>
+        </li>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<h1>Профиль пользователя {{ user_object.username }}</h1>
+    <p>Логин: {{ user_object.username }}</p>
+    <p>Имя: {{ user_object.first_name }}</p>
+    <p><strong>Email:</strong>{{ user_object.email }}</p>
+    <p>О себе: {{ user_object.profile.about_info }}</p>
+    <h3>Review</h3>
+        <div>
+            {% for review in reviews %}
+                <p>review: {{ review.content }}</p>
+                <p>rate: {{ review.rate }}</p>
+            {% if perms.webapp.change_review or review.author == request.user %}
+                <p><a href="{% url "webapp:review_update" review.pk %}">Update review</a></p>
+            {% endif %}
+            {% if perms.webapp.delete_review or review.author == request.user %}
+                <p><a href="{% url "webapp:review_delete" review.pk %}">Delete review</a></p>
+            {% endif %}
+                <hr>
+        </div>
+        {% empty %}
+            <p>No review yet.</p>
+        {% endfor %}
+{% endblock %}
